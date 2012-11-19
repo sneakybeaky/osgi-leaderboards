@@ -1,4 +1,4 @@
-package com.ninedemons.playthings.leaderboard.api;
+package com.ninedemons.leaderboard.api;
 
 
 import java.util.Collection;
