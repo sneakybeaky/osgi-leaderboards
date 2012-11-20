@@ -51,6 +51,7 @@
 
     <modules>
         <module>leaderboard-api</module>
+        <module>redis-pipelined</module>
     </modules>
 
     <dependencyManagement>
@@ -59,6 +60,23 @@
                 <groupId>redis.clients</groupId>
                 <artifactId>jedis</artifactId>
                 <version>${jedis.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.slf4j</groupId>
+                <artifactId>slf4j-api</artifactId>
+                <version>${slf4j.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.testng</groupId>
+                <artifactId>testng</artifactId>
+                <version>${testng.version}</version>
+                <scope>test</scope>
+            </dependency>
+            <dependency>
+                <groupId>ch.qos.logback</groupId>
+                <artifactId>logback-classic</artifactId>
+                <version>${logback.version}</version>
+                <scope>test</scope>
             </dependency>
         </dependencies>
     </dependencyManagement>
@@ -83,6 +101,21 @@
                     <version>${maven.bundle.plugin.version}</version>
                     <extensions>true</extensions>
                 </plugin>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-failsafe-plugin</artifactId>
+                    <version>${maven.failsafe.plugin.version}</version>
+                    <configuration>
+                        <includes>
+                            <include>**/IT*.java</include>
+                        </includes>
+                    </configuration>
+                </plugin>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-surefire-plugin</artifactId>
+                    <version>${maven.surefire.plugin.version}</version>
+                </plugin>
             </plugins>
         </pluginManagement>
         <extensions>
@@ -99,6 +132,11 @@
         <springframework.build.aws.version>3.0.0.RELEASE</springframework.build.aws.version>
         <maven.bundle.plugin.version>2.3.7</maven.bundle.plugin.version>
         <maven.compiler.plugin.version>2.3.2</maven.compiler.plugin.version>
+        <slf4j.version>1.6.1</slf4j.version>
+        <maven.failsafe.plugin.version>2.12.4</maven.failsafe.plugin.version>
+        <maven.surefire.plugin.version>2.12.4</maven.surefire.plugin.version>
+        <testng.version>6.8</testng.version>
+        <logback.version>1.0.7</logback.version>
     </properties>
 
 </project>
