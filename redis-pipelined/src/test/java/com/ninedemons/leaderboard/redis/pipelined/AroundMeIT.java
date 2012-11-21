@@ -9,6 +9,7 @@ import redis.clients.jedis.JedisPool;
 import java.util.List;
 
 import static junit.framework.Assert.assertEquals;
+import static junit.framework.Assert.assertNotSame;
 import static junit.framework.Assert.assertTrue;
 
 /**
@@ -31,12 +32,25 @@ public class AroundMeIT {
     public void beforeTest() {
         underTest = new PipelinedLeaderboard();
         underTest.setJedisPool(pool);
+        underTest.setPageSize(PipelinedLeaderboard.DEFAULT_PAGE_SIZE);
         populateTestData();
     }
 
     @AfterTest
     public void afterTest() {
         restoreRedisState();
+    }
+
+    @Test
+    public void testWhenPageSizeChanged() {
+        int newPageSize = PipelinedLeaderboard.DEFAULT_PAGE_SIZE / 2;
+        assertNotSame(newPageSize,PipelinedLeaderboard.DEFAULT_PAGE_SIZE);
+
+        underTest.setPageSize(newPageSize);
+        List<Entry> found = underTest.aroundMe(leaderboardName, "user_50");
+        Assert.assertNotNull("Should have returned a list of users", found);
+        assertEquals("Should have the modified page size of users", newPageSize, found.size());
+        testResultsAreOrdered(found);
     }
 
     @Test
@@ -47,7 +61,7 @@ public class AroundMeIT {
 
         Entry middleEntry = found.get(found.size() / 2);
         assertEquals("User_50 should be the first entry", middleEntry.getUserId(), "user_50");
-
+        testResultsAreOrdered(found);
     }
 
     @Test
