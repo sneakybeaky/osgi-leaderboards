@@ -7,15 +7,14 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import redis.clients.jedis.*;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 /**
  * Created by Jon Barber
  */
 public class PipelinedLeaderboard implements Leaderboard {
+
+    private final static List<Entry> EMPTY_RESULT = Collections.emptyList();
 
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
@@ -50,9 +49,15 @@ public class PipelinedLeaderboard implements Leaderboard {
 
         try {
 
-            long reverseRankForMember = jedis.zrevrank(leaderboardName, userId);
+            Long reverseRankForMember = jedis.zrevrank(leaderboardName, userId);
 
-            int startingOffset = (int) reverseRankForMember - (pageSize / 2);
+            if (reverseRankForMember == null) {
+                logger.debug("No such user {}",userId);
+                return EMPTY_RESULT;
+            }
+
+
+            int startingOffset = (int) reverseRankForMember.longValue() - (pageSize / 2);
             long usersInLeaderboard = jedis.zcard(leaderboardName);
 
             if (reverseRankForMember > (usersInLeaderboard - pageSize) ) {

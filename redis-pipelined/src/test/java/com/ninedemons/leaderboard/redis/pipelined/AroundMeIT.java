@@ -44,6 +44,14 @@ public class AroundMeIT {
         rollbackRedisChanges();
     }
 
+    @Test
+    public void testNoSuchUser() {
+        List<Entry> found = underTest.aroundMe(leaderboardName, "no_such_user");
+        assertNotNull("Should have returned an empty list",found);
+        assertEquals("Should have returned an empty list",0,found.size());
+
+    }
+
 
     @Test
     public void testWhenPageSizeChanged() {
