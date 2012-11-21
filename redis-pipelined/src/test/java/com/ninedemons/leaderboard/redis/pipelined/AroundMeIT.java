@@ -2,9 +2,7 @@ package com.ninedemons.leaderboard.redis.pipelined;
 
 import com.ninedemons.leaderboard.api.Entry;
 import junit.framework.Assert;
-import org.testng.annotations.*;
-import redis.clients.jedis.Jedis;
-import redis.clients.jedis.JedisPool;
+import org.testng.annotations.Test;
 
 import java.util.List;
 
@@ -13,42 +11,13 @@ import static junit.framework.Assert.*;
 /**
  * Created by Jon Barber
  */
-public class AroundMeIT {
-
-    private static String HIGHEST_RANKED_USER;
-    private static String LOWEST_RANKED_USER;
-    private static String MID_RANKED_USER;
-
-    JedisPool pool;
-    String leaderboardName;
-    PipelinedLeaderboard underTest;
-
-    @Parameters({"redis.host", "redis.port"})
-    @BeforeSuite(alwaysRun = true)
-    public void setupRedis(@Optional("localhost") String hostname, @Optional("6379") int port) {
-        pool = new JedisPool(hostname, port);
-        checkRedisReachable();
-    }
-
-    @BeforeTest
-    public void beforeTest() {
-        underTest = new PipelinedLeaderboard();
-        underTest.setJedisPool(pool);
-        underTest.setPageSize(PipelinedLeaderboard.DEFAULT_PAGE_SIZE);
-        underTest.setUseZeroIndexForRank(true);
-        populateTestData();
-    }
-
-    @AfterTest
-    public void afterTest() {
-        rollbackRedisChanges();
-    }
+public class AroundMeIT extends BaseRedisTest {
 
     @Test
     public void testNoSuchUser() {
         List<Entry> found = underTest.aroundMe(leaderboardName, "no_such_user");
         assertNotNull("Should have returned an empty list",found);
-        assertEquals("Should have returned an empty list",0,found.size());
+        assertEquals("Should have returned an empty list", 0, found.size());
 
     }
 
@@ -99,7 +68,7 @@ public class AroundMeIT {
     @Test
     public void testZeroBasedIndex() {
         underTest.setUseZeroIndexForRank(true);
-        assertTrue("Zero index for rank has been enabled",underTest.isUseZeroIndexForRank());
+        assertTrue("Zero index for rank has been enabled", underTest.isUseZeroIndexForRank());
         List<Entry> found = underTest.aroundMe(leaderboardName, HIGHEST_RANKED_USER);
         assertEquals("Should have the full page size of users", underTest.getPageSize(), found.size());
 
@@ -118,54 +87,6 @@ public class AroundMeIT {
         Entry first = found.get(0);
         assertEquals("First user should have a rank of 1", new Long(1), first.getRank());
         testResultsAreOrdered(found);
-    }
-
-    public void testResultsAreOrdered(List<Entry> results) {
-
-        if (results.size() == 0) {
-            return;
-        }
-
-        Entry previousEntry = null;
-        for (Entry entry : results) {
-
-            if (previousEntry != null) {
-
-                assertTrue("Results should be ordered in descending order of score", !(entry.getScore().compareTo(previousEntry.getScore()) > 0));
-                assertTrue("Results should be ordered in ascending order of rank", entry.getRank().compareTo(previousEntry.getRank()) > 0);
-            }
-            previousEntry = entry;
-        }
-
-    }
-
-    private void rollbackRedisChanges() {
-        Jedis jedis = pool.getResource();
-        jedis.del(leaderboardName);
-        pool.returnResource(jedis);
-    }
-
-    private void populateTestData() {
-        Jedis jedis = pool.getResource();
-        leaderboardName = "test_leaderboard_" + Long.toString(jedis.incr("test_loaderboard_name"));
-
-        for (int userNumber = 0; userNumber < 100; userNumber++) {
-            int score = 1000 - userNumber;
-            jedis.zadd(leaderboardName, score, "user_" + userNumber);
-        }
-        HIGHEST_RANKED_USER = "user_0";
-        MID_RANKED_USER = "user_50";
-        LOWEST_RANKED_USER = "user_99";
-
-        pool.returnResource(jedis);
-    }
-
-    public void checkRedisReachable() {
-
-        Jedis jedis = pool.getResource();
-        String pong = jedis.ping();
-        assertEquals("Unable to contact Redis", "PONG", pong);
-        pool.returnResource(jedis);
     }
 
 }
