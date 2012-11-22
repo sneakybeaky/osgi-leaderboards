@@ -15,7 +15,7 @@ public class AroundMeIT extends BaseRedisTest {
 
     @Test
     public void testNoSuchUser() {
-        List<Entry> found = underTest.aroundMe(leaderboardName, "no_such_user");
+        List<Entry> found = underTest.aroundMe(leaderboardName, NO_SUCH_USER);
         assertNotNull("Should have returned an empty list",found);
         assertEquals("Should have returned an empty list", 0, found.size());
 
@@ -23,7 +23,7 @@ public class AroundMeIT extends BaseRedisTest {
 
     @Test
     public void testNoSuchLeaderboard() {
-        List<Entry> found = underTest.aroundMe("no_such_leaderboard", "no_such_user");
+        List<Entry> found = underTest.aroundMe(NO_SUCH_LEADERBOARD, NO_SUCH_USER);
         assertNotNull("Should have returned an empty list",found);
         assertEquals("Should have returned an empty list", 0, found.size());
     }

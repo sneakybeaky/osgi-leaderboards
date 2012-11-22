@@ -52,7 +52,7 @@ public class PipelinedLeaderboard implements Leaderboard {
             Long reverseRankForMember = jedis.zrevrank(leaderboardName, userId);
 
             if (reverseRankForMember == null) {
-                logger.debug("No such user {} or leaderboard {}",userId, leaderboardName);
+                logger.debug("No such user {} or leaderboard {}", userId, leaderboardName);
                 return EMPTY_RESULT;
             }
 
@@ -60,7 +60,7 @@ public class PipelinedLeaderboard implements Leaderboard {
             int startingOffset = (int) reverseRankForMember.longValue() - (pageSize / 2);
             long usersInLeaderboard = jedis.zcard(leaderboardName);
 
-            if (reverseRankForMember > (usersInLeaderboard - pageSize) ) {
+            if (reverseRankForMember > (usersInLeaderboard - pageSize)) {
                 startingOffset = (int) usersInLeaderboard - pageSize;
             }
 
@@ -82,7 +82,42 @@ public class PipelinedLeaderboard implements Leaderboard {
 
     @Override
     public List<Entry> friends(String leaderboardName, Collection<String> userIds) {
-        return null;
+
+        Map<String, ScoreAndRankResponse> responses = getRankAndScoresFor(leaderboardName, userIds);
+        return getEntriesFor(responses);
+
+    }
+
+    private List<Entry> getEntriesFor(Map<String, ScoreAndRankResponse> responses) {
+        List<Entry> result = new ArrayList<Entry>(responses.size());
+
+        for (Map.Entry<String, ScoreAndRankResponse> response : responses.entrySet()) {
+            ScoreAndRankResponse scoreAndRank = response.getValue();
+
+            if (scoreAndRank.isResponseValid()) {
+                result.add(new ImmutableEntry(response.getKey(), scoreAndRank.getRank(), scoreAndRank.getScore()));
+            }
+        }
+        return result;
+    }
+
+    private Map<String, ScoreAndRankResponse> getRankAndScoresFor(String leaderboardName, Collection<String> userIds) {
+        Map<String, ScoreAndRankResponse> responses;Jedis jedis = jedisPool.getResource();
+
+        try {
+
+            responses = new HashMap<String, ScoreAndRankResponse>(userIds.size());
+            Pipeline pipeline = jedis.pipelined();
+            for (String userid : userIds) {
+                responses.put(userid, new ScoreAndRankResponse(pipeline.zscore(leaderboardName, userid),
+                        pipeline.zrevrank(leaderboardName, userid)));
+            }
+            pipeline.sync();
+
+        } finally {
+            jedisPool.returnResource(jedis);
+        }
+        return responses;
     }
 
     @Override

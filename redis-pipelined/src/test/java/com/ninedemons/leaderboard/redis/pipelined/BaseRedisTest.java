@@ -15,6 +15,8 @@ import static junit.framework.Assert.assertTrue;
  */
 public abstract class BaseRedisTest {
 
+    public static final String NO_SUCH_LEADERBOARD = "no_such_leaderboard";
+    public static final String NO_SUCH_USER = "no_such_user";
     protected static String HIGHEST_RANKED_USER;
     protected static String LOWEST_RANKED_USER;
     protected static String MID_RANKED_USER;

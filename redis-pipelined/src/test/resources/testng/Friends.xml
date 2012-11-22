@@ -1,0 +1,9 @@
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
+
+<suite name="Friends Tests" verbose="3">
+    <test name="Friends">
+        <classes>
+            <class name="com.ninedemons.leaderboard.redis.pipelined.FriendsIT"/>
+        </classes>
+    </test>
+</suite>
