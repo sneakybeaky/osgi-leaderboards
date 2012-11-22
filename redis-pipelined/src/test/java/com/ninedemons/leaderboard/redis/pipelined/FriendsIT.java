@@ -38,9 +38,12 @@ public class FriendsIT extends BaseRedisTest {
 
     @Test
     public void testOneUser() {
-        List<Entry> found = underTest.friends(leaderboardName, Arrays.asList(MID_RANKED_USER));
+        List<Entry> found = underTest.friends(leaderboardName, Arrays.asList(HIGHEST_RANKED_USER));
         assertNotNull("Should always return a List<Entry>", found);
         assertEquals("Should be one result", 1, found.size());
-        assertEquals("Wrong user in result",MID_RANKED_USER,found.get(0).getUserId());
+        assertEquals("Wrong user in result",HIGHEST_RANKED_USER,found.get(0).getUserId());
+        assertEquals("Wrong user in result",HIGHEST_RANKED_USER,found.get(0).getUserId());
+        testEntriesAreCorrect(found, underTest.isUseZeroIndexForRank());
     }
+
 }

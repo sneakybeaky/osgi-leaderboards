@@ -39,6 +39,8 @@ public class AroundMeIT extends BaseRedisTest {
         Assert.assertNotNull("Should have returned a list of users", found);
         assertEquals("Should have the modified page size of users", newPageSize, found.size());
         testResultsAreOrdered(found);
+        testEntriesAreCorrect(found, underTest.isUseZeroIndexForRank());
+
     }
 
     @Test
@@ -50,6 +52,7 @@ public class AroundMeIT extends BaseRedisTest {
         Entry middleEntry = found.get(found.size() / 2);
         assertEquals("User_50 should be the first entry", middleEntry.getUserId(), MID_RANKED_USER);
         testResultsAreOrdered(found);
+        testEntriesAreCorrect(found, underTest.isUseZeroIndexForRank());
     }
 
     @Test
@@ -60,6 +63,7 @@ public class AroundMeIT extends BaseRedisTest {
         Entry first = found.get(0);
         assertEquals("User_0 should be the first entry", first.getUserId(), HIGHEST_RANKED_USER);
         testResultsAreOrdered(found);
+        testEntriesAreCorrect(found, underTest.isUseZeroIndexForRank());
     }
 
     @Test
@@ -70,6 +74,7 @@ public class AroundMeIT extends BaseRedisTest {
         Entry last = found.get(found.size() - 1);
         assertEquals("User_99 should be the first entry", last.getUserId(), LOWEST_RANKED_USER);
         testResultsAreOrdered(found);
+        testEntriesAreCorrect(found, underTest.isUseZeroIndexForRank());
     }
 
     @Test
@@ -82,6 +87,7 @@ public class AroundMeIT extends BaseRedisTest {
         Entry first = found.get(0);
         assertEquals("First user should have a rank of 0", new Long(0), first.getRank());
         testResultsAreOrdered(found);
+        testEntriesAreCorrect(found, underTest.isUseZeroIndexForRank());
     }
 
     @Test
@@ -94,6 +100,7 @@ public class AroundMeIT extends BaseRedisTest {
         Entry first = found.get(0);
         assertEquals("First user should have a rank of 1", new Long(1), first.getRank());
         testResultsAreOrdered(found);
+        testEntriesAreCorrect(found, underTest.isUseZeroIndexForRank());
     }
 
 }
