@@ -52,7 +52,7 @@ public class PipelinedLeaderboard implements Leaderboard {
             Long reverseRankForMember = jedis.zrevrank(leaderboardName, userId);
 
             if (reverseRankForMember == null) {
-                logger.debug("No such user {}",userId);
+                logger.debug("No such user {} or leaderboard {}",userId, leaderboardName);
                 return EMPTY_RESULT;
             }
 

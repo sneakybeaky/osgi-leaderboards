@@ -21,6 +21,13 @@ public class AroundMeIT extends BaseRedisTest {
 
     }
 
+    @Test
+    public void testNoSuchLeaderboard() {
+        List<Entry> found = underTest.aroundMe("no_such_leaderboard", "no_such_user");
+        assertNotNull("Should have returned an empty list",found);
+        assertEquals("Should have returned an empty list", 0, found.size());
+    }
+
 
     @Test
     public void testWhenPageSizeChanged() {
