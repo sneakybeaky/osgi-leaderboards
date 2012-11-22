@@ -100,7 +100,7 @@ public abstract class BaseRedisTest {
     public void checkEntryIsCorrect(Entry entry,boolean zeroBasedIndex) {
         Double expectedScore = userAndScore.get(entry.getUserId());
         assertEquals("Score is not correct", entry.getScore(), expectedScore);
-        Long expectedRank = new Long(MAXIMUM_SCORE - expectedScore.intValue());
+        Long expectedRank = (long) (MAXIMUM_SCORE - expectedScore.intValue());
 
         if (!zeroBasedIndex) {
             expectedRank++;
