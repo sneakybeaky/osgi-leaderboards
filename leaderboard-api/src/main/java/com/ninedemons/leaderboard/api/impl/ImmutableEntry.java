@@ -33,4 +33,16 @@ public class ImmutableEntry implements Entry {
     }
 
 
+    @Override
+    public int compareTo(Entry other) {
+
+        int rankComparison = (int) (other.getRank() - getRank());
+
+        if (rankComparison == 0) {
+            return (int) (getScore() - other.getScore());
+        } else {
+            return rankComparison;
+        }
+
+    }
 }

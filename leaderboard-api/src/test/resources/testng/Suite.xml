@@ -1,0 +1,9 @@
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
+
+<suite name="Leaderboard API" verbose="3" >
+    <test name="Immutable Entry"   >
+        <classes>
+            <class name="com.ninedemons.leaderboard.api.impl.ImmutableEntryTest" />
+        </classes>
+    </test>
+</suite>

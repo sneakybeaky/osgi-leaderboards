@@ -46,4 +46,13 @@ public class FriendsIT extends BaseRedisTest {
         testEntriesAreCorrect(found, underTest.isUseZeroIndexForRank());
     }
 
+    @Test
+    public void testTwoUsers() {
+        List<Entry> found = underTest.friends(leaderboardName, Arrays.asList(LOWEST_RANKED_USER,HIGHEST_RANKED_USER));
+        assertNotNull("Should always return a List<Entry>", found);
+        assertEquals("Should be two results", 2, found.size());
+        testEntriesAreCorrect(found, underTest.isUseZeroIndexForRank());
+        testEntriesAreOrdered(found);
+    }
+
 }

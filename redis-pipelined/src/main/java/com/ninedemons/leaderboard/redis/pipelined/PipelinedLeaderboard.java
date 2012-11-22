@@ -84,7 +84,9 @@ public class PipelinedLeaderboard implements Leaderboard {
     public List<Entry> friends(String leaderboardName, Collection<String> userIds) {
 
         Map<String, ScoreAndRankResponse> responses = getRankAndScoresFor(leaderboardName, userIds);
-        return getEntriesFor(responses);
+        List<Entry> friends = getEntriesFor(responses);
+        Collections.sort(friends,Collections.reverseOrder());
+        return friends;
 
     }
 

@@ -3,7 +3,7 @@ package com.ninedemons.leaderboard.api;
 /**
  * Represents an entry in a leaderboard
  */
-public interface Entry {
+public interface Entry extends Comparable<Entry> {
 
     String getUserId();
 

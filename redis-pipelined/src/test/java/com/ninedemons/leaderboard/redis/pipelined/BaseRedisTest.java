@@ -52,7 +52,7 @@ public abstract class BaseRedisTest {
         rollbackRedisChanges();
     }
 
-    public void testResultsAreOrdered(List<Entry> results) {
+    public void testEntriesAreOrdered(List<Entry> results) {
 
         if (results.size() == 0) {
             return;
