@@ -1,0 +1,9 @@
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
+
+<suite name="Around Me Tests" verbose="3">
+    <test name="Around Me">
+        <classes>
+            <class name="com.ninedemons.leaderboard.redis.pipelined.AroundMeIT"/>
+        </classes>
+    </test>
+</suite>
