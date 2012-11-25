@@ -29,9 +29,10 @@ public interface Leaderboard {
     /**
      * Returns a page of entries from the leaderboard.
      *
-     * The lower the page number the higher the rank of the entries returned.
-     * If the page number is too low, e.g. -1, then the first lowest page will be returned - this will be the page of
-     * highest entries in the leader board.
+     * The lower the page number the higher the rank of the entries returned. Page 1 is always the first page in the
+     * leader board - - this is the page of highest entries in the leader board.
+     *
+     * If the page number is too low, e.g. -1, then page 1 will be returned.
      *
      * If the page is too high then the last page in the leader board will be returned - this will be the page of
      * lowest entries in the leader board.

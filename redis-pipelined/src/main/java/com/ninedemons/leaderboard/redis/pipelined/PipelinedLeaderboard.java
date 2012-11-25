@@ -20,6 +20,11 @@ public class PipelinedLeaderboard implements Leaderboard {
 
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
+    /**
+     * The lowest numbered page of results
+     */
+    private static final int FIRST_PAGE = 1;
+
     private JedisPool jedisPool;
 
     public static final int DEFAULT_PAGE_SIZE = 20;
@@ -95,7 +100,7 @@ public class PipelinedLeaderboard implements Leaderboard {
 
         Map<String, ScoreAndRankResponse> responses = getRankAndScoresFor(leaderboardName, userIds);
         List<Entry> friends = getEntriesFor(responses);
-        Collections.sort(friends,Collections.reverseOrder());
+        Collections.sort(friends, Collections.reverseOrder());
         return friends;
 
     }
@@ -114,7 +119,9 @@ public class PipelinedLeaderboard implements Leaderboard {
     }
 
     private Map<String, ScoreAndRankResponse> getRankAndScoresFor(String leaderboardName, Collection<String> userIds) {
-        Map<String, ScoreAndRankResponse> responses;Jedis jedis = jedisPool.getResource();
+        Map<String, ScoreAndRankResponse> responses;
+
+        Jedis jedis = jedisPool.getResource();
 
         try {
 
@@ -136,10 +143,46 @@ public class PipelinedLeaderboard implements Leaderboard {
     public Page page(String leaderboardName, int pageNumber) {
 
         if (leaderboardName == null) {
-            return new ImmutablePage(pageNumber,EMPTY_RESULT);
+            return new ImmutablePage(pageNumber, EMPTY_RESULT);
         }
 
-        return null;
+        if (pageNumber < FIRST_PAGE) {
+            pageNumber = FIRST_PAGE;
+        }
+
+        Jedis jedis = jedisPool.getResource();
+        List<Entry> foundEntries = EMPTY_RESULT;
+
+        try {
+
+            int totalPagesAvailable = totalPagesIn(leaderboardName, jedis);
+            pageNumber = Math.min(pageNumber, totalPagesAvailable);
+
+
+            int indexForRedis = pageNumber - 1;
+            int startingOffset = indexForRedis * pageSize;
+            int endingOffset = (startingOffset + pageSize) - 1;
+
+
+            Pipeline pipeline = jedis.pipelined();
+            Response<Set<Tuple>> rawLeaderDataResponse = pipeline.zrevrangeWithScores(leaderboardName, startingOffset, endingOffset);
+            pipeline.sync();
+            foundEntries = responseToEntries(pipeline, leaderboardName, rawLeaderDataResponse);
+
+        } finally {
+            jedisPool.returnResource(jedis);
+        }
+
+        return new ImmutablePage(pageNumber, foundEntries);
+
+    }
+
+    private int totalPagesIn(String leaderboardName, Jedis jedis) {
+        return (int) Math.ceil((float) totalMembersIn(jedis,leaderboardName) / (float) pageSize);
+    }
+
+    private long totalMembersIn(Jedis jedis,String leaderboardName) {
+        return jedis.zcard(leaderboardName);
     }
 
     private List<Entry> responseToEntries(Pipeline pipeline, String leaderboardName, Response<Set<Tuple>> rawLeaderDataResponse) {
