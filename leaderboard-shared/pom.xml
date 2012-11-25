@@ -8,7 +8,7 @@
         <version>1.0.0-SNAPSHOT</version>
     </parent>
 
-    <artifactId>leaderboard-api</artifactId>
+    <artifactId>leaderboard-shared</artifactId>
     <packaging>bundle</packaging>
     <name>Leaderboard API</name>
 

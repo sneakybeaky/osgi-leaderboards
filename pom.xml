@@ -50,7 +50,7 @@
 
 
     <modules>
-        <module>leaderboard-api</module>
+        <module>leaderboard-shared</module>
         <module>redis-pipelined</module>
     </modules>
 
