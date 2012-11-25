@@ -10,7 +10,7 @@
 
     <artifactId>leaderboard-shared</artifactId>
     <packaging>bundle</packaging>
-    <name>Leaderboard API</name>
+    <name>Leaderboard Shared</name>
 
     <dependencies>
         <dependency>
