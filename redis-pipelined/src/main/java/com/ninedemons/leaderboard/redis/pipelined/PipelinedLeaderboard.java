@@ -45,6 +45,10 @@ public class PipelinedLeaderboard implements Leaderboard {
     @Override
     public List<Entry> aroundMe(String leaderboardName, String userId) {
 
+        if (leaderboardName == null || userId == null) {
+            return EMPTY_RESULT;
+        }
+
         Jedis jedis = jedisPool.getResource();
 
         try {

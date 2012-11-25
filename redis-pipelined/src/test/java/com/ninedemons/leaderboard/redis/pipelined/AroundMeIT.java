@@ -14,6 +14,22 @@ import static junit.framework.Assert.*;
 public class AroundMeIT extends BaseRedisTest {
 
     @Test
+    public void testNullLeaderboardName() {
+        List<Entry> found = underTest.aroundMe(null, MID_RANKED_USER);
+        assertNotNull("Should have returned an empty list",found);
+        assertEquals("Should have returned an empty list", 0, found.size());
+
+    }
+
+    @Test
+    public void testNullUser() {
+        List<Entry> found = underTest.aroundMe(leaderboardName, null);
+        assertNotNull("Should have returned an empty list",found);
+        assertEquals("Should have returned an empty list", 0, found.size());
+
+    }
+
+    @Test
     public void testNoSuchUser() {
         List<Entry> found = underTest.aroundMe(leaderboardName, NO_SUCH_USER);
         assertNotNull("Should have returned an empty list",found);
