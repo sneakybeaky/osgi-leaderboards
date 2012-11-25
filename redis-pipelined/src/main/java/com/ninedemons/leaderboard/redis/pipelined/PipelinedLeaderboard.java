@@ -83,6 +83,10 @@ public class PipelinedLeaderboard implements Leaderboard {
     @Override
     public List<Entry> friends(String leaderboardName, Collection<String> userIds) {
 
+        if (leaderboardName == null || userIds == null) {
+            return EMPTY_RESULT;
+        }
+
         Map<String, ScoreAndRankResponse> responses = getRankAndScoresFor(leaderboardName, userIds);
         List<Entry> friends = getEntriesFor(responses);
         Collections.sort(friends,Collections.reverseOrder());

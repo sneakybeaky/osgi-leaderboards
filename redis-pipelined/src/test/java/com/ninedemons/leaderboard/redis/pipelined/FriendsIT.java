@@ -16,6 +16,20 @@ import static junit.framework.Assert.assertNotNull;
 public class FriendsIT extends BaseRedisTest {
 
     @Test
+    public void testNullLeaderboard() {
+        List<Entry> found = underTest.friends(null, Collections.<String>emptySet());
+        assertNotNull("Should always return a List<Entry>", found);
+        assertEquals("Should return an empty List<Entry>", 0, found.size());
+    }
+
+    @Test
+    public void testNullFriendsList() {
+        List<Entry> found = underTest.friends(leaderboardName, null);
+        assertNotNull("Should always return a List<Entry>", found);
+        assertEquals("Should return an empty List<Entry>", 0, found.size());
+    }
+
+    @Test
     public void testNoSuchLeaderboard() {
         List<Entry> found = underTest.friends(NO_SUCH_LEADERBOARD, Collections.<String>emptySet());
         assertNotNull("Should always return a List<Entry>", found);
