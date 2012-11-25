@@ -10,6 +10,6 @@ public interface Leaderboard {
 
     List<Entry> friends(String leaderboardName,Collection<String> userIds);
 
-    List<Entry> page(String leaderboardName,int page);
+    Page page(String leaderboardName,int page);
 
 }

@@ -3,6 +3,7 @@ package com.ninedemons.leaderboard.redis.pipelined;
 import com.ninedemons.leaderboard.api.Entry;
 import com.ninedemons.leaderboard.api.Leaderboard;
 import com.ninedemons.leaderboard.api.impl.ImmutableEntry;
+import com.ninedemons.leaderboard.api.Page;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import redis.clients.jedis.*;
@@ -131,7 +132,7 @@ public class PipelinedLeaderboard implements Leaderboard {
     }
 
     @Override
-    public List<Entry> page(String leaderboardName, int page) {
+    public Page page(String leaderboardName, int page) {
         return null;
     }
 
