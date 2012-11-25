@@ -76,8 +76,7 @@ public class FriendsIT extends BaseRedisTest {
         testEntriesAreCorrect(found, underTest.isUseZeroIndexForRank());
         testEntriesAreOrdered(found);
 
-        friendsToFind.remove(NO_SUCH_USER);
-        testAllEntriesPresent(found,friendsToFind);
+        testAllEntriesPresent(found,Arrays.asList(LOWEST_RANKED_USER,HIGHEST_RANKED_USER));
     }
 
     private void testAllEntriesPresent(List<Entry> foundEntries, Collection<String> idsToFind) {
