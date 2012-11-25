@@ -93,6 +93,7 @@
                             <suiteXmlFiles>
                                 <suiteXmlFile>src/test/resources/testng/AroundMe.xml</suiteXmlFile>
                                 <suiteXmlFile>src/test/resources/testng/Friends.xml</suiteXmlFile>
+                                <suiteXmlFile>src/test/resources/testng/Page.xml</suiteXmlFile>
                             </suiteXmlFiles>
                             <systemPropertyVariables>
                                 <redis.host>localhost</redis.host>

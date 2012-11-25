@@ -4,6 +4,7 @@ import com.ninedemons.leaderboard.api.Entry;
 import com.ninedemons.leaderboard.api.Leaderboard;
 import com.ninedemons.leaderboard.api.impl.ImmutableEntry;
 import com.ninedemons.leaderboard.api.Page;
+import com.ninedemons.leaderboard.api.impl.ImmutablePage;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import redis.clients.jedis.*;
@@ -132,7 +133,12 @@ public class PipelinedLeaderboard implements Leaderboard {
     }
 
     @Override
-    public Page page(String leaderboardName, int page) {
+    public Page page(String leaderboardName, int pageNumber) {
+
+        if (leaderboardName == null) {
+            return new ImmutablePage(pageNumber,EMPTY_RESULT);
+        }
+
         return null;
     }
 

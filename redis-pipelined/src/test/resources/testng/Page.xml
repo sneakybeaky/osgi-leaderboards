@@ -1,0 +1,9 @@
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
+
+<suite name="Page Tests" verbose="3">
+    <test name="Page">
+        <classes>
+            <class name="com.ninedemons.leaderboard.redis.pipelined.PageIT"/>
+        </classes>
+    </test>
+</suite>
