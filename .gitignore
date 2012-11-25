@@ -8,3 +8,6 @@
 # IntelliJ project files
 *.iml
 .idea/
+
+# Maven builds
+*/target/**
