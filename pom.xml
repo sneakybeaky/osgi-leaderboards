@@ -52,14 +52,26 @@
     <modules>
         <module>leaderboard-shared</module>
         <module>redis-pipelined</module>
+        <module>remoting</module>
     </modules>
 
     <dependencyManagement>
         <dependencies>
             <dependency>
+                <groupId>org.apache.cxf</groupId>
+                <artifactId>cxf-rt-frontend-jaxrs</artifactId>
+                <scope>provided</scope>
+                <version>${cxf.version}</version>
+            </dependency>
+            <dependency>
                 <groupId>redis.clients</groupId>
                 <artifactId>jedis</artifactId>
                 <version>${jedis.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.ninedemons.osgi.jedis</groupId>
+                <artifactId>jedis-poolsource</artifactId>
+                <version>${jedis-poolsource.version}</version>
             </dependency>
             <dependency>
                 <groupId>org.slf4j</groupId>
@@ -164,6 +176,8 @@
         <cobertura.plugin.version>2.5.2</cobertura.plugin.version>
         <reportng.version>1.1.2</reportng.version>
         <guice.version>3.0</guice.version>
+        <cxf.version>2.6.0</cxf.version>
+        <jedis-poolsource.version>1.0.0-SNAPSHOT</jedis-poolsource.version>
     </properties>
 
 </project>

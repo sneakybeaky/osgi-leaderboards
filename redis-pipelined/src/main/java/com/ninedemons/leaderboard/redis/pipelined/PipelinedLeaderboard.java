@@ -2,9 +2,10 @@ package com.ninedemons.leaderboard.redis.pipelined;
 
 import com.ninedemons.leaderboard.api.Entry;
 import com.ninedemons.leaderboard.api.Leaderboard;
-import com.ninedemons.leaderboard.api.impl.ImmutableEntry;
 import com.ninedemons.leaderboard.api.Page;
+import com.ninedemons.leaderboard.api.impl.ImmutableEntry;
 import com.ninedemons.leaderboard.api.impl.ImmutablePage;
+import com.ninedemons.osgi.jedis.JedisPoolSource;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import redis.clients.jedis.*;
@@ -25,7 +26,7 @@ public class PipelinedLeaderboard implements Leaderboard {
      */
     private static final int FIRST_PAGE = 1;
 
-    private JedisPool jedisPool;
+    private JedisPoolSource poolSource;
 
     public static final int DEFAULT_PAGE_SIZE = 20;
 
@@ -56,7 +57,7 @@ public class PipelinedLeaderboard implements Leaderboard {
             return EMPTY_RESULT;
         }
 
-        Jedis jedis = jedisPool.getResource();
+        Jedis jedis = poolSource.getPool().getResource();
 
         try {
 
@@ -87,7 +88,7 @@ public class PipelinedLeaderboard implements Leaderboard {
 
             return responseToEntries(pipeline, leaderboardName, rawLeaderDataResponse);
         } finally {
-            jedisPool.returnResource(jedis);
+            poolSource.getPool().returnResource(jedis);
         }
     }
 
@@ -121,7 +122,7 @@ public class PipelinedLeaderboard implements Leaderboard {
     private Map<String, ScoreAndRankResponse> getRankAndScoresFor(String leaderboardName, Collection<String> userIds) {
         Map<String, ScoreAndRankResponse> responses;
 
-        Jedis jedis = jedisPool.getResource();
+        Jedis jedis = poolSource.getPool().getResource();
 
         try {
 
@@ -134,7 +135,7 @@ public class PipelinedLeaderboard implements Leaderboard {
             pipeline.sync();
 
         } finally {
-            jedisPool.returnResource(jedis);
+            poolSource.getPool().returnResource(jedis);
         }
         return responses;
     }
@@ -150,7 +151,7 @@ public class PipelinedLeaderboard implements Leaderboard {
             pageNumber = FIRST_PAGE;
         }
 
-        Jedis jedis = jedisPool.getResource();
+        Jedis jedis = poolSource.getPool().getResource();
         List<Entry> foundEntries = EMPTY_RESULT;
 
         try {
@@ -170,7 +171,7 @@ public class PipelinedLeaderboard implements Leaderboard {
             foundEntries = responseToEntries(pipeline, leaderboardName, rawLeaderDataResponse);
 
         } finally {
-            jedisPool.returnResource(jedis);
+            poolSource.getPool().returnResource(jedis);
         }
 
         return new ImmutablePage(pageNumber, foundEntries);
@@ -215,9 +216,7 @@ public class PipelinedLeaderboard implements Leaderboard {
     }
 
 
-    public void setJedisPool(JedisPool jedisPool) {
-        this.jedisPool = jedisPool;
+    public void setPoolSource(JedisPoolSource poolSource) {
+        this.poolSource = poolSource;
     }
-
-
 }

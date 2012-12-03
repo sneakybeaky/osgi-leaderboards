@@ -1,6 +1,8 @@
 package com.ninedemons.leaderboard.redis.pipelined;
 
 import com.ninedemons.leaderboard.api.Entry;
+import com.ninedemons.osgi.jedis.JedisPoolSource;
+import com.ninedemons.osgi.jedis.simple.SimpleJedisPoolSource;
 import org.testng.annotations.*;
 import redis.clients.jedis.Jedis;
 import redis.clients.jedis.JedisPool;
@@ -26,6 +28,7 @@ public abstract class BaseRedisTest {
     protected static String MID_RANKED_USER;
 
     JedisPool pool;
+    JedisPoolSource poolSource;
     String leaderboardName;
     PipelinedLeaderboard underTest;
 
@@ -35,13 +38,14 @@ public abstract class BaseRedisTest {
     @BeforeSuite(alwaysRun = true)
     public void setupRedis(@Optional("localhost") String hostname, @Optional("6379") int port) {
         pool = new JedisPool(hostname, port);
+        poolSource = new SimpleJedisPoolSource(pool);
         checkRedisReachable();
     }
 
     @BeforeTest
     public void beforeTest() {
         underTest = new PipelinedLeaderboard();
-        underTest.setJedisPool(pool);
+        underTest.setPoolSource(poolSource);
         underTest.setPageSize(PipelinedLeaderboard.DEFAULT_PAGE_SIZE);
         underTest.setUseZeroIndexForRank(true);
         populateTestData();
