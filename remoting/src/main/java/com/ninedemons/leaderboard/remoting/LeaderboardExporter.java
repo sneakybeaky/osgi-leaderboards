@@ -1,12 +1,10 @@
 package com.ninedemons.leaderboard.remoting;
 
-import com.ninedemons.leaderboard.api.Entry;
 import com.ninedemons.leaderboard.api.Leaderboard;
 import com.ninedemons.leaderboard.api.Page;
 import org.slf4j.LoggerFactory;
 
 import javax.ws.rs.*;
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -34,22 +32,6 @@ public class LeaderboardExporter {
         return result;
     }
 
-    private List<EntryResponse> toResponseEntries(List<Entry> entries) {
-
-        List<EntryResponse> result = new ArrayList<EntryResponse>(entries.size());
-
-        for (Entry entry : entries) {
-            EntryResponse response = new EntryResponse();
-            response.setRank(entry.getRank());
-            response.setScore(entry.getScore());
-            response.setUserId(entry.getUserId());
-            result.add(response);
-
-        }
-
-        return result;
-    }
-
     @GET
     @Path("/{leaderboard}/me/{id}")
     @Produces({"application/xml", "application/json"})
@@ -62,9 +44,9 @@ public class LeaderboardExporter {
     }
 
     @GET
-    @Path("/{leaderboard}/friends/{idList}")
+    @Path("/{leaderboard}/friends")
     @Produces({"application/xml", "application/json"})
-    public EntriesResponse getFriends(@PathParam("leaderboard")String leaderboardName,@PathParam("idList") List<String> idList) {
+    public EntriesResponse getFriends(@PathParam("leaderboard")String leaderboardName,@QueryParam("id") List<String> idList) {
         logger.debug("Getting a leaderboard for ids {} from the leaderboard {}",idList,leaderboardName);
 
         EntriesResponse result =  new EntriesResponse();
