@@ -1,9 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<MetaData xmlns="http://www.osgi.org/xmlns/metadata/v1.0.0"
-          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-          xsi:schemaLocation="
-		 http://www.osgi.org/xmlns/metadata/v1.0.0 http://www.osgi.org/xmlns/metatype/v1.1.0/metatype.xsd
-	 ">
+<metatype:MetaData xmlns:metatype="http://www.osgi.org/xmlns/metatype/v1.0.0">
+
     <OCD description="Redis Leaderboard Setup" name="Redis Leaderboard" id="com.ninedemons.leaderboard.redis.pipelined.PipelinedLeaderboard">
         <AD name="Page Size" id="pageSize" required="true" type="Integer" default="5" description="Size of a page of data"/>
         <AD name="Zero Based Indexing" id="useZeroIndexForRank" required="true" type="Boolean" default="true" description="Whether the first entry is 0 or 1"/>
@@ -11,4 +8,4 @@
     <Designate pid="com.ninedemons.leaderboard.redis.pipelined.PipelinedLeaderboard">
         <Object ocdref="com.ninedemons.leaderboard.redis.pipelined.PipelinedLeaderboard"/>
     </Designate>
-</MetaData>
+</metatype:MetaData>
