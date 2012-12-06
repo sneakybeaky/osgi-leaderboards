@@ -53,10 +53,22 @@
         <module>leaderboard-shared</module>
         <module>redis-pipelined</module>
         <module>remoting</module>
+        <module>dummy-leaderboard</module>
     </modules>
 
     <dependencyManagement>
         <dependencies>
+            <dependency>
+                <groupId>org.osgi</groupId>
+                <artifactId>org.osgi.core</artifactId>
+                <version>${osgi.core.version}</version>
+                <scope>provided</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.felix</groupId>
+                <artifactId>org.apache.felix.scr.annotations</artifactId>
+                <version>${scr.annotations.version}</version>
+            </dependency>
             <dependency>
                 <groupId>org.apache.cxf</groupId>
                 <artifactId>cxf-rt-frontend-jaxrs</artifactId>
@@ -151,6 +163,11 @@
                     <artifactId>cobertura-maven-plugin</artifactId>
                     <version>${cobertura.plugin.version}</version>
                 </plugin>
+                <plugin>
+                    <groupId>org.apache.felix</groupId>
+                    <artifactId>maven-scr-plugin</artifactId>
+                    <version>${maven.scr.plugin.version}</version>
+                </plugin>
             </plugins>
         </pluginManagement>
         <extensions>
@@ -178,6 +195,9 @@
         <guice.version>3.0</guice.version>
         <cxf.version>2.6.0</cxf.version>
         <jedis-poolsource.version>1.0.0-SNAPSHOT</jedis-poolsource.version>
+        <scr.annotations.version>1.6.0</scr.annotations.version>
+        <maven.scr.plugin.version>1.7.4</maven.scr.plugin.version>
+        <osgi.core.version>4.2.0</osgi.core.version>
     </properties>
 
 </project>
