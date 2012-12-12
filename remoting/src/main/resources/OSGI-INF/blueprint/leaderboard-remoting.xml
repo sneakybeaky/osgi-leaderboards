@@ -23,6 +23,7 @@
         <jaxrs:extensionMappings>
             <entry key="json" value="application/json"/>
             <entry key="xml" value="application/xml"/>
+            <entry key="jsonp" value="application/x-javascript"/>
         </jaxrs:extensionMappings>
         <!-- custom providers -->
         <jaxrs:providers>

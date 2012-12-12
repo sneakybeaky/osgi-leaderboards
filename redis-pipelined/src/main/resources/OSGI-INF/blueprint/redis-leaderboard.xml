@@ -16,7 +16,7 @@ http://aries.apache.org/blueprint/xmlns/blueprint-cm/v1.1.0 http://svn.apache.or
     </cm:property-placeholder>
 
     <reference id="redisPool" interface="com.ninedemons.osgi.jedis.JedisPoolSource"
-               filter="(osgi.jndi.service.name=jedis-pool/localhost)"/>
+               filter="(osgi.jndi.service.name=jedis-pool/leaderboard)"/>
 
     <bean id="redisLeaderboard" class="com.ninedemons.leaderboard.redis.pipelined.PipelinedLeaderboard">
         <property name="poolSource" ref="redisPool"/>
