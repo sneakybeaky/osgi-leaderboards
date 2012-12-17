@@ -10,6 +10,8 @@
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>dummy-leaderboard</artifactId>
+    <name>Dumb Leaderboard</name>
+    <description>Very dumb leaderboard implementation</description>
 
     <packaging>bundle</packaging>
 

@@ -11,6 +11,8 @@
     <packaging>bundle</packaging>
 
     <artifactId>leaderboards-remoting</artifactId>
+    <name>Leaderboard remoting</name>
+    <description>Exposes leaderboards as REST style services</description>
 
     <dependencies>
         <dependency>

@@ -11,7 +11,7 @@
 
     <artifactId>redis-pipelined-leaderboard</artifactId>
     <packaging>bundle</packaging>
-    <name>Pipelined Redis backed leaderboard</name>
+    <name>Pipelined Redis-backed Leaderboard</name>
 
     <dependencies>
         <dependency>
