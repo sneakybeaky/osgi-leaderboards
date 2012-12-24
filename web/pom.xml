@@ -1,0 +1,175 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <parent>
+        <artifactId>leaderboards</artifactId>
+        <groupId>com.ninedemons.osgi</groupId>
+        <version>1.0.0-SNAPSHOT</version>
+    </parent>
+    <modelVersion>4.0.0</modelVersion>
+
+    <packaging>war</packaging>
+    <artifactId>leaderboards-web</artifactId>
+    <name>Leaderboard web application</name>
+    <description>Web application using leaderboards and Spring MVC</description>
+
+    <dependencies>
+        <dependency>
+            <groupId>com.ninedemons.osgi</groupId>
+            <artifactId>leaderboard-shared</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>javax.servlet</groupId>
+            <artifactId>com.springsource.javax.servlet.jsp.jstl</artifactId>
+            <version>1.2.0</version>
+        </dependency>
+        <dependency>
+            <groupId>org.osgi</groupId>
+            <artifactId>org.osgi.compendium</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.osgi</groupId>
+            <artifactId>org.osgi.core</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-context</artifactId>
+            <version>3.0.7.RELEASE</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-webmvc</artifactId>
+            <version>3.0.7.RELEASE</version>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-war-plugin</artifactId>
+                <configuration>
+                    <!-- Make a skinny WAR -->
+                    <packagingExcludes>WEB-INF/lib/*.jar</packagingExcludes>
+                    <archive>
+                        <manifestFile>${basedir}/target/bnd/MANIFEST.MF</manifestFile>
+                    </archive>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.felix</groupId>
+                <artifactId>maven-bundle-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>bundle-manifest</id>
+                        <phase>process-classes</phase>
+                        <goals>
+                            <goal>manifest</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <configuration>
+                    <supportedProjectTypes>
+                        <supportedProjectType>war</supportedProjectType>
+                    </supportedProjectTypes>
+                    <manifestLocation>target/bnd</manifestLocation>
+                    <instructions>
+                        <Webapp-Context>leaderboards</Webapp-Context>
+                        <Web-ContextPath>leaderboards</Web-ContextPath>
+                        <Export-Package>!*</Export-Package>
+                        <Import-Package>
+                            com.ninedemons.leaderboard.api,
+                            javax.servlet; version="[2.4.0, 4.0.0)",
+                            javax.servlet.http; version="[2.4.0, 4.0.0)",
+                            javax.servlet.jsp.jstl.core; version="[1.2,2.0)",
+                            javax.servlet.resources; version="[2.4.0, 4.0.0)",
+                            <!-- Just import EVERYTHING from Apache standard JSTL impl. -->
+                            org.apache.taglibs.standard; version="[1.2.0,2)",
+                            org.apache.taglibs.standard.extra.spath; version="[1.2.0,2)",
+                            org.apache.taglibs.standard.functions; version="[1.2.0,2)",
+                            org.apache.taglibs.standard.lang.jstl; version="[1.2.0,2)",
+                            org.apache.taglibs.standard.lang.jstl.parser; version="[1.2.0,2)",
+                            org.apache.taglibs.standard.lang.jstl.test; version="[1.2.0,2)",
+                            org.apache.taglibs.standard.lang.jstl.test.beans; version="[1.2.0,2)",
+                            org.apache.taglibs.standard.lang.support; version="[1.2.0,2)",
+                            org.apache.taglibs.standard.resources; version="[1.2.0,2)",
+                            org.apache.taglibs.standard.tag.common.core; version="[1.2.0,2)",
+                            org.apache.taglibs.standard.tag.common.fmt; version="[1.2.0,2)",
+                            org.apache.taglibs.standard.tag.common.sql; version="[1.2.0,2)",
+                            org.apache.taglibs.standard.tag.common.xml; version="[1.2.0,2)",
+                            org.apache.taglibs.standard.tag.el.core; version="[1.2.0,2)",
+                            org.apache.taglibs.standard.tag.el.fmt; version="[1.2.0,2)",
+                            org.apache.taglibs.standard.tag.el.sql; version="[1.2.0,2)",
+                            org.apache.taglibs.standard.tag.el.xml; version="[1.2.0,2)",
+                            org.apache.taglibs.standard.tag.rt.core; version="[1.2.0,2)",
+                            org.apache.taglibs.standard.tag.rt.fmt; version="[1.2.0,2)",
+                            org.apache.taglibs.standard.tag.rt.sql; version="[1.2.0,2)",
+                            org.apache.taglibs.standard.tag.rt.xml; version="[1.2.0,2)",
+                            org.apache.taglibs.standard.tei; version="[1.2.0,2)",
+                            org.apache.taglibs.standard.tlv; version="[1.2.0,2)",
+                            org.springframework.beans.factory.config,
+                            org.springframework.osgi.web.context.support; version="[1.2,2.0)",
+                            org.springframework.stereotype,
+                            org.springframework.web.bind.annotation,
+                            org.springframework.web.servlet,
+                            org.springframework.web.servlet.view,
+                            *
+                        </Import-Package>
+                        <Bundle-ClassPath>
+                            WEB-INF/classes,
+                            <!-- Have to use this for PAX Web 0.7.4 to find JSPs since it uses classpath. -->
+                            .
+                        </Bundle-ClassPath>
+                    </instructions>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-resources-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>features</id>
+                        <phase>generate-resources</phase>
+                        <goals>
+                            <goal>copy-resources</goal>
+                        </goals>
+                        <configuration>
+                            <resources>
+                                <resource>
+                                    <directory>src/main/features</directory>
+                                    <filtering>true</filtering>
+                                </resource>
+                            </resources>
+                            <outputDirectory>target/features</outputDirectory>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>build-helper-maven-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>attach-artifacts</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>attach-artifact</goal>
+                        </goals>
+                        <configuration>
+                            <artifacts>
+                                <artifact>
+                                    <file>target/features/features.xml</file>
+                                    <type>xml</type>
+                                    <classifier>features</classifier>
+                                </artifact>
+                            </artifacts>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
+
+</project>

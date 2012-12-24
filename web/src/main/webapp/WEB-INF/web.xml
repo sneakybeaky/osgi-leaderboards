@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<web-app xmlns="http://java.sun.com/xml/ns/j2ee"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee http://java.sun.com/xml/ns/j2ee/web-app_2_5.xsd"
+         version="2.5">
+
+    <display-name>Spring MVC In ServiceMix</display-name>
+    <description>Example of deploying a Spring MVC based WAR in ServiceMix.</description>
+
+    <jsp-config>
+        <taglib>
+            <taglib-uri>http://java.sun.com/jstl/core</taglib-uri>
+            <taglib-location>/WEB-INF/tld/c.tld</taglib-location>
+        </taglib>
+        <taglib>
+            <taglib-uri>http://java.sun.com/jsp/jstl/fmt</taglib-uri>
+            <taglib-location>/WEB-INF/tld/fmt.tld</taglib-location>
+        </taglib>
+        <taglib>
+            <taglib-uri>http://java.sun.com/jsp/jstl/fmt</taglib-uri>
+            <taglib-location>/WEB-INF/tld/fmt.tld</taglib-location>
+        </taglib>
+        <taglib>
+            <taglib-uri>http://java.sun.com/jsp/jstl/functions</taglib-uri>
+            <taglib-location>/WEB-INF/tld/fn.tld</taglib-location>
+        </taglib>
+        <taglib>
+            <taglib-uri>http://java.sun.com/jsp/jstl/xml</taglib-uri>
+            <taglib-location>/WEB-INF/tld/x.tld</taglib-location>
+        </taglib>
+    </jsp-config>
+
+    <servlet>
+        <servlet-name>leaderboard</servlet-name>
+        <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+        <init-param>
+            <param-name>contextClass</param-name>
+            <param-value>org.springframework.osgi.web.context.support.OsgiBundleXmlWebApplicationContext</param-value>
+        </init-param>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>leaderboard</servlet-name>
+        <url-pattern>/</url-pattern>
+    </servlet-mapping>
+
+</web-app>
