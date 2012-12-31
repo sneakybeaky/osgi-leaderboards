@@ -1,7 +1,9 @@
-Karaf-leaderboards-feature
-==========================
+OSGi Leaderboars
+================
 
-Packages up all leaderboard bundles into a Karaf feature.
+Shows how to use OSGi as a platform for web services. Uses Blueprint, Declarative Services, Redis and Apache CXF to demonstrate various aspects of OSGi.
+
+Apache Karaf is used as the OSGi runtime (both shell extensions for Jedis and features for Karaf are provided).
 
 Getting Started
 ---------------
