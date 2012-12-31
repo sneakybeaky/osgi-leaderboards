@@ -2,7 +2,7 @@
 <project>
 
     <modelVersion>4.0.0</modelVersion>
-    <groupId>com.ninedemons.osgi</groupId>
+    <groupId>com.ninedemons.osgi.leaderboards</groupId>
     <artifactId>leaderboards</artifactId>
 
     <packaging>pom</packaging>
@@ -65,6 +65,7 @@
         <module>redis-pipelined</module>
         <module>remoting</module>
         <module>dummy-leaderboard</module>
+        <module>features</module>
         <module>web</module>
     </modules>
 
