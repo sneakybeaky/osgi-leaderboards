@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<features name="leaderboards-${pom.version}" xmlns="http://karaf.apache.org/xmlns/features/v1.0.0"
+          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+          xsi:schemaLocation="http://karaf.apache.org/xmlns/features/v1.0.0 http://karaf.apache.org/xmlns/features/v1.0.0">
+
+    <feature name="leaderboards" version="${pom.version}" description="Leaderboards with implementations">
+        <feature>redis-leaderboard-datasource</feature>
+        <bundle>mvn:com.ninedemons.osgi.leaderboards/leaderboard-shared/1.0.0-SNAPSHOT</bundle>
+        <bundle>mvn:com.ninedemons.osgi.leaderboards/dummy-leaderboard/1.0.0-SNAPSHOT</bundle>
+        <bundle>mvn:com.ninedemons.osgi.leaderboards/redis-pipelined-leaderboard/1.0.0-SNAPSHOT</bundle>
+    </feature>
+
+    <feature name="leaderboard-remoting" version="${pom.version}" description="Exposes leaderboards as REST style services">
+        <feature>leaderboards</feature>
+        <feature>cxf</feature>
+        <bundle>mvn:com.ninedemons.osgi.leaderboards/leaderboards-remoting/1.0.0-SNAPSHOT</bundle>
+    </feature>
+
+    <feature name="jedis" version="${pom.version}" description="Jedis driver &amp; console commands">
+        <bundle>mvn:com.ninedemons.karaf.jedis/jedis-command/1.0.0-SNAPSHOT</bundle>
+        <bundle>mvn:redis.clients/com.ninedemons.jedis/2.1.0-SNAPSHOT</bundle>
+        <bundle>mvn:com.ninedemons.osgi.jedis/jedis-poolsource/1.0.0-SNAPSHOT</bundle>
+        <bundle>mvn:org.apache.commons/com.springsource.org.apache.commons.pool/[1.5,2)</bundle>
+    </feature>
+
+    <feature name="redis-leaderboard-datasource" version="${pom.version}" description="Redis datasource running on localhost">
+        <feature>jedis</feature>
+        <bundle>mvn:com.ninedemons.osgi.jedis/example-datasource/1.0.0-SNAPSHOT</bundle>
+    </feature>
+
+</features>
