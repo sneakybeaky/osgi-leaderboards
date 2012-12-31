@@ -1,4 +1,4 @@
-OSGi Leaderboars
+OSGi Leaderboards
 ================
 
 Shows how to use OSGi as a platform for web services. Uses Blueprint, Declarative Services, Metatype Service, Redis and Apache CXF to demonstrate various aspects of OSGi.
