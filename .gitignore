@@ -11,3 +11,4 @@
 
 # Maven builds
 */target/**
+atlassian-ide-plugin.xml
