@@ -50,6 +50,20 @@ public class PipelinedLeaderboard implements Leaderboard {
         this.useZeroIndexForRank = useZeroIndexForRank;
     }
 
+    public void setScore(String leaderboardName, String userId,double score) {
+        if (leaderboardName == null || userId == null) {
+            return;
+        }
+
+        Jedis jedis = poolSource.getPool().getResource();
+
+        try{
+            jedis.zadd(leaderboardName,score,userId);
+        } finally {
+            poolSource.getPool().returnResource(jedis);
+        }
+
+    }
     @Override
     public List<Entry> aroundMe(String leaderboardName, String userId) {
 
