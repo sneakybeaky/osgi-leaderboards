@@ -18,7 +18,7 @@
 
     <dependencies>
         <dependency>
-            <groupId>com.ninedemons.osgi</groupId>
+            <groupId>com.ninedemons.osgi.leaderboards</groupId>
             <artifactId>leaderboard-shared</artifactId>
             <version>${project.version}</version>
         </dependency>
