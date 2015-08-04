@@ -33,7 +33,7 @@ Check this worked by
 
 You should see `(integer) 500000`
 
-2. Install [Karaf](http://karaf.apache.org/)
+2. Install [Karaf 3.0.x](http://karaf.apache.org/)
 
 Modify the Pax maven url resolver config and add the ninedemons repo. Edit the file `${KARAF_HOME}/etc/org.ops4j.pax.url.mvn.cfg` and modify the value of `org.ops4j.pax.url.mvn.repositories` so it looks like
 
@@ -45,18 +45,18 @@ Modify the Pax maven url resolver config and add the ninedemons repo. Edit the f
 
 Start Karaf and install the SCR extension (used by the dummy leaderboard service) :
 
-    karaf@root> features:install eventadmin
-    karaf@root> features:install scr
+    karaf@root> feature:install eventadmin
+    karaf@root> feature:install scr
 
 Now install Apache CXF for the REST framework :
 
-    karaf@root> features:addurl mvn:org.apache.cxf.karaf/apache-cxf/2.7.1/xml/features
-    karaf@root> features:install cxf
+    karaf@root> feature:repo-add cxf 2.7.16
+    karaf@root> feature:install cxf
     
 Finally, install the leaderboards
 
-    karaf@root> features:addUrl mvn:com.ninedemons.osgi.leaderboards/features/1.0.0-SNAPSHOT/xml/features
-    karaf@root> features:install leaderboard-remoting
+    karaf@root> feature:repo-add mvn:com.ninedemons.osgi.leaderboards/features/1.0.0-SNAPSHOT/xml/features
+    karaf@root> feature:install leaderboard-remoting
 
 4. Try out the service 
 
